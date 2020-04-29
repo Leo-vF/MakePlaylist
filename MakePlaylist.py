@@ -28,8 +28,8 @@ def query_spotify(artist, track_name):
     return sp.search(q="{} {}".format(artist, track_name), type='track', limit=1)
 
 
-def get_track_ids():
-    tracks = make_list_from_string(" - ",  True)
+def get_track_ids(separation_symbol):
+    tracks = make_list_from_string(separation_symbol,  True)
     track_ids = []
     for i in range(len(tracks)):
         try:
@@ -41,9 +41,9 @@ def get_track_ids():
     return track_ids
 
 
-def make_playlist():
+def make_playlist(separation_symbol):
     global playlist_id
-    tracks = get_track_ids()
+    tracks = get_track_ids(separation_symbol)
     sp.user_playlist_add_tracks(
         user=user_config['username'], playlist_id=playlist_id, tracks=tracks)
 
@@ -62,7 +62,9 @@ if __name__ == '__main__':
         sp = spotipy.Spotify(auth=token)
         print(
             "! DO NOT FOGET TO UPDATE THE Songs.txt FILE BEFORE ENTERING THE PLAYLIST NAME")
+        separation_symbol = input(
+            "Write the Separtion Symbol(s) between Artist and Name in a given line")
         name = input("Name your new Playlist: ")
         playlist_id = sp.user_playlist_create(
             user=user_config['username'], name=name, public=False)['id']
-        make_playlist()
+        make_playlist(separation_symbol)
