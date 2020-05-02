@@ -11,7 +11,8 @@ def load_config():
     print(user_config)
 
 
-def make_list_from_string(split_character, timestamp_on_end=None):
+def make_list_from_string(split_character):
+    global timestamp
     raw_lines = open("Songs.txt", "r").readlines()
     lines = []
     for i, line in enumerate(raw_lines):
@@ -19,7 +20,7 @@ def make_list_from_string(split_character, timestamp_on_end=None):
             lines.append(line[:-1])
     for i, line in enumerate(lines):
         lines[i] = line.split(split_character)
-        if timestamp_on_end:
+        if timestamp == "y":
             lines[i] = lines[i][:-1]
     return lines
 
@@ -29,11 +30,11 @@ def query_spotify(artist, track_name):
 
 
 def get_track_ids(separation_symbol):
-    tracks = make_list_from_string(separation_symbol,  True)
+    tracks = make_list_from_string(separation_symbol)
     track_ids = []
     for i in range(len(tracks)):
+        track_id = query_spotify(tracks[i][0], tracks[i][1])
         try:
-            track_id = query_spotify(tracks[i][0], tracks[i][1])
             track_id = track_id['tracks']['items'][0]['id']
             track_ids.append(track_id)
         except:
@@ -52,6 +53,7 @@ if __name__ == '__main__':
     global sp
     global user_config
     global playlist_id
+    global timestamp
     load_config()
     token = util.prompt_for_user_token(user_config['username'],
                                        scope='playlist-modify-private',
@@ -60,11 +62,14 @@ if __name__ == '__main__':
                                        redirect_uri=user_config['redirect_uri'])
     if token:
         sp = spotipy.Spotify(auth=token)
-        print(
-            "! DO NOT FOGET TO UPDATE THE Songs.txt FILE BEFORE ENTERING THE PLAYLIST NAME")
+        print("------ ! DO NOT FOGET TO UPDATE THE Songs.txt FILE BEFORE ENTERING THE PLAYLIST NAME! ------")
         separation_symbol = input(
-            "Write the Separtion Symbol(s) between Artist and Name in a given line")
+            "Write the Separtion Symbol(s) between Artist and Name in a given line: ")
+        print(separation_symbol)
         name = input("Name your new Playlist: ")
+        print(name)
+        timestamp = input("is a timestamp given? y/n: ")
+        print(timestamp)
         playlist_id = sp.user_playlist_create(
             user=user_config['username'], name=name, public=False)['id']
         make_playlist(separation_symbol)
