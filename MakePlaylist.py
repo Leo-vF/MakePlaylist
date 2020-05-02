@@ -13,6 +13,7 @@ def load_config():
 
 def make_list_from_string(split_character):
     global timestamp
+    global timestamp_index
     raw_lines = open("Songs.txt", "r").readlines()
     lines = []
     for i, line in enumerate(raw_lines):
@@ -21,19 +22,23 @@ def make_list_from_string(split_character):
     for i, line in enumerate(lines):
         lines[i] = line.split(split_character)
         if timestamp == "y":
-            lines[i] = lines[i][:-1]
+            del lines[i][timestamp_index]
     return lines
 
 
-def query_spotify(artist, track_name):
+def query_spotify(artist, track_name=""):
     return sp.search(q="{} {}".format(artist, track_name), type='track', limit=1)
 
 
 def get_track_ids(separation_symbol):
+    global artist_given
     tracks = make_list_from_string(separation_symbol)
     track_ids = []
     for i in range(len(tracks)):
-        track_id = query_spotify(tracks[i][0], tracks[i][1])
+        if artist_given == "y":
+            track_id = query_spotify(tracks[i][0], tracks[i][1])
+        else:
+            track_id = query_spotify(tracks[i][0])
         try:
             track_id = track_id['tracks']['items'][0]['id']
             track_ids.append(track_id)
@@ -54,6 +59,8 @@ if __name__ == '__main__':
     global user_config
     global playlist_id
     global timestamp
+    global timestamp_index
+    global artist_given
     load_config()
     token = util.prompt_for_user_token(user_config['username'],
                                        scope='playlist-modify-private',
@@ -70,6 +77,11 @@ if __name__ == '__main__':
         print(name)
         timestamp = input("is a timestamp given? y/n: ")
         print(timestamp)
+        if timestamp == "y":
+            timestamp_index = int(input(
+                "Enter a number on where the Timestamp is located starting with 0: "))
+        artist_given = input("Enter whether a Artist is given (y/n): ")
+        print(artist_given)
         playlist_id = sp.user_playlist_create(
             user=user_config['username'], name=name, public=False)['id']
         make_playlist(separation_symbol)
