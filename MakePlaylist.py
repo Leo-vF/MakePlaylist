@@ -1,13 +1,12 @@
-import sys
-import spotipy
 import yaml
+import spotipy
 import spotipy.util as util
 
 
 def load_config():
     global user_config
     stream = open('config.yaml')
-    user_config = yaml.load(stream)
+    user_config = yaml.full_load(stream)
     print(user_config)
 
 
@@ -35,6 +34,7 @@ def get_track_ids(separation_symbol):
     tracks = make_list_from_string(separation_symbol)
     track_ids = []
     for i in range(len(tracks)):
+        tracks[i][0] += " "
         if artist_given == "y":
             track_id = query_spotify(tracks[i][0], tracks[i][1])
         else:
@@ -44,6 +44,8 @@ def get_track_ids(separation_symbol):
             track_ids.append(track_id)
         except:
             pass
+        if type(track_id) != str:
+            print("FAILED TO FIND: ", tracks[i])
     return track_ids
 
 
