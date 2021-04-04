@@ -64,7 +64,7 @@ class Playlist:
 
 
 def from_file(sp, username, path="Songs.txt"):
-    lines = open(path, "r").readlines()
+    lines = open(path, "r", encoding="utf-8").readlines()
     lines = [line[:-1] for line in lines if line != "\n"]
     #
     # Remove timestamps from lines
