@@ -1,19 +1,4 @@
-Doo Dat Wah - Jules Gaia
-Eleganza - Lucas Pittman
-Feeling Alright - Gavin Luke
-Swagger Stagger - Lucas Pittman
-Urban Conspiracy - Jules Gaia
-Oh So Hot - Jules Gaia
-Grab a Cab - Rune Dale
-Glitz at the Ritz - Jules Gaia
-xtravaganza - Jules Gaia
-12th Floor Party - Jules Gaia
-Midnight Swing - Jules Gaia
-Ain't no thing but to swing - Jules Gaia
-Martini on the Run - Jules Gaia
-Life O' The Lavish - Jules Gaia
-Let's Bounce - Jules Gaia
-Wild Slide - Jules Gaia
-Bop it - Jules Gaia
-Oh What A Whirl - Jules Gaia
-Mama Swing - Lucas Pittman
+Example Playlist name
+Song #1
+Song #2
+Song #3
