@@ -63,12 +63,16 @@ class Playlist:
             self.avg_features[key] = avg_feature
 
 
-def from_file(sp, username, path="Songs.txt"):
+def from_file(sp, username, path="Songs.txt", playlist_name=None):
     lines = open(path, "r", encoding="utf-8").readlines()
     lines = [line[:-1] for line in lines if line != "\n"]
     #
     # Remove timestamps from lines
     #
-    playlist_name = lines[0]
-    playlist = Playlist(sp, playlist_name, username)
-    playlist.add_songs(lines[1:])
+    if not playlist_name:
+        playlist_name = lines[0]
+        playlist = Playlist(sp, playlist_name, username)
+        playlist.add_songs(lines[1:])
+    else:
+        playlist = Playlist(sp, playlist_name, username)
+        playlist.add_songs[lines]
