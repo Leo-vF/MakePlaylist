@@ -7,20 +7,26 @@ import yaml
 
 
 def load_conf():
-    conf = yaml.full_load(open('config.yaml'))
+    conf = yaml.full_load(
+        open('config.yaml'))
     return conf.values()
 
 
-# if more scopes are required append them with a spece between each one
-scope = "playlist-modify-private"
+def setup():
+    # if more scopes are required append them with a spece between each one
+    scope = "playlist-modify-private"
 
-username, client_id, client_secret, redirect_uri = load_conf()
+    username, client_id, client_secret, redirect_uri = load_conf()
 
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope,
-                                               username=username,
-                                               client_id=client_id,
-                                               client_secret=client_secret,
-                                               redirect_uri=redirect_uri))
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope,
+                                                   username=username,
+                                                   client_id=client_id,
+                                                   client_secret=client_secret,
+                                                   redirect_uri=redirect_uri))
+    return username, sp
 
 
-from_file(sp, username)
+if __name__ == "__main__":
+    username, sp = setup()
+
+    from_file(sp, username)
