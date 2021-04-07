@@ -76,7 +76,7 @@ def from_file(sp, username, path="Songs.txt", playlist_name=None):
     else:
         playlist = Playlist(sp, playlist_name, username)
         playlist.add_songs[lines]
-    print("'{}'".format(playlist_name))
+    print("Created/Added to Playlist '{}'".format(playlist_name))
 
 
 def from_cli(sp, username, playlist_name, songs):
