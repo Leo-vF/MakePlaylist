@@ -18,7 +18,7 @@ from os import getenv
 def setup():
     # if more scopes are required append them with a spece between each one
     load_dotenv()
-    scope = "playlist-modify-private"
+    scope = "playlist-modify-private playlist-read-private"
 
     # username, client_id, client_secret, redirect_uri = load_conf()
 
