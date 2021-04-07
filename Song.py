@@ -10,6 +10,12 @@ class Song:
 
         self.get_spotify_info()
 
+    def __str__(self) -> str:
+        if self.name and self.artist:
+            return "{} by {}".format(self.name, self.artist)
+        else:
+            return self.search_name
+
     def get_spotify_info(self):
         response = self.sp.search(q=self.search_name, type='track', limit=1)
         # test to see if a song was found or not
