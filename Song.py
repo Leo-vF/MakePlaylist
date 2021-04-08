@@ -1,14 +1,26 @@
+from requests.models import Response
 from spotipy.client import Spotify
 
 
 class Song:
-    def __init__(self, sp: Spotify, search_name: str) -> None:
+    def __init__(self, sp: Spotify, search_name: str = None, id: str = None, name: str = None, artist: str = None) -> None:
         self.sp = sp
-        self.search_name = search_name
-        self.name = ""
-        self.artist = ""
 
-        self.get_spotify_info()
+        if id and name and artist:
+            self.id = id
+            self.name = name
+            self.artist = artist
+            self.search_name = name + " " + artist
+        elif id:
+            self.id = id
+
+            self.get_spotify_info_by_id()
+        elif search_name:
+            self.search_name = search_name
+            self.name = ""
+            self.artist = ""
+
+            self.get_spotify_info()
 
     def __str__(self) -> str:
         if self.name and self.artist:
@@ -25,6 +37,11 @@ class Song:
             self.id = response["tracks"]["items"][0]["id"]
             self.name = response["tracks"]["items"][0]["name"]
             self.artist = response["tracks"]["items"][0]["artists"][0]["name"]
+
+    def get_spotify_info_by_id(self):
+        response = self.sp.track(self.id)
+        self.name = response["name"]
+        self.artist = response["artists"][0]["name"]
 
     def sp_get_features(self):
         self.features = self.sp.audio_features(self.id)[0]

@@ -1,4 +1,4 @@
-from Playlist import from_file
+from Playlist import from_file, get_avg_analysis
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from dotenv import load_dotenv
@@ -16,5 +16,5 @@ def setup():
 
 if __name__ == "__main__":
     username, sp = setup()
-    sp = setup()
-    from_file(sp, username)
+    playlist_name = str(input("Enter the Playlists name: "))
+    print(get_avg_analysis(sp, username, playlist_name))
