@@ -1,4 +1,3 @@
-from requests.models import Response
 from spotipy.client import Spotify
 
 
