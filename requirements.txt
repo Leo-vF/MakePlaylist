@@ -1,3 +1,4 @@
 spotipy
 pyyaml
 click
+python-dotenv
