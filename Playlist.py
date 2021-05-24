@@ -104,7 +104,7 @@ def from_file(sp, username, path="Songs.txt", playlist_name=None):
         playlist.add_songs(lines[1:])
     else:
         playlist = Playlist(sp, playlist_name, username)
-        playlist.add_songs[lines]
+        playlist.add_songs(lines)
     print("Created/Added to Playlist '{}'".format(playlist_name))
 
 
