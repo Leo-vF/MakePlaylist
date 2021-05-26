@@ -114,6 +114,13 @@ def from_cli(sp, username, playlist_name, songs):
     playlist.add_songs([songs])
 
 
+def from_dcbot(sp, username, playlist_name, songs):
+    playlist = Playlist(sp, playlist_name, username)
+    playlist.add_songs(songs)
+
+    return "Created/Added to Playlist '{}'".format(playlist_name)
+
+
 def get_avg_analysis(sp, username, playlist_name):
     playlist = Playlist(sp, playlist_name, username)
     playlist.sp_get_songs_from_existing()
