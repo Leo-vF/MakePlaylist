@@ -16,17 +16,11 @@ other_users = getenv("USERS").split(",")
 async def on_message(message: discord.message):
     if message.author == client.user:
         return
-    # print(message)
-    # print(message.channel)
-    # print(message.channel.id)
-
-    print(message.author.id)
 
     if message.author.id == correct_user:
         response = handle_commands_full(message.content)
         await message.channel.send(response)
     elif str(message.author.id) in other_users:
-        print(message.author)
         response = handle_commands(message.content, message.author)
         await message.channel.send(response)
 
@@ -60,7 +54,6 @@ def handle_commands(message: str, playlist: str) -> str:
     username, sp = setup()
 
     if cmd == "add":
-        print(playlist, songs)
         return from_dcbot(sp, username, str(playlist), songs)
     elif cmd == "features":
         return str(get_avg_analysis(sp, username, playlist))
