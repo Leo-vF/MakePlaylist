@@ -91,6 +91,14 @@ class Playlist:
             avg_feature = sum(features)/len(features)
             self.avg_features[key] = round(avg_feature, 4)
 
+    def print_songs(self) -> str:
+        songs = ""
+        songs += str(self.songs[0])
+        for song in self.songs[1:]:
+            songs += "\n"
+            songs += str(song)
+        return songs
+
 
 def from_file(sp, username, path="Songs.txt", playlist_name=None):
     lines = open(path, "r", encoding="utf-8").readlines()
@@ -119,6 +127,12 @@ def from_dcbot(sp, username, playlist_name, songs):
     playlist.add_songs(songs)
 
     return "Created/Added to Playlist '{}'".format(playlist_name)
+
+
+def get_songs_from_existing(sp, username, playlist_name):
+    playlist = Playlist(sp, playlist_name, username)
+    playlist.sp_get_songs_from_existing()
+    return playlist.print_songs()
 
 
 def get_avg_analysis(sp, username, playlist_name):
