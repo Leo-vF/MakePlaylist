@@ -9,6 +9,9 @@ class Playlist:
         self.username = username
         self.songs = []
         self.id = ""
+        self.description = ""
+        self.collaborative = False
+        self.public = False
         self.features = []
         self.avg_features = {}
 
@@ -18,12 +21,27 @@ class Playlist:
         self.id = self.sp.user_playlist_create(
             self.username, self.name, public=False)['id']
 
+    def sp_change_details(self, new_name=None, public=None, collaborative=None, description=None):
+        if new_name == None:
+            new_name = self.name
+        if public == None:
+            public = self.public
+        if collaborative == None:
+            collaborative = self.public
+
+        self.sp.user_playlist_change_details(
+            self.username, self.id, new_name, public, collaborative, description)
+
     def sp_get_playlist_id(self):
         response = self.sp.current_user_playlists()
         exists = False
         for item in response["items"]:
             if item["name"] == self.name:
                 self.id = item["id"]
+                self.description = item["description"]
+                self.collaborative = item["collaborative"]
+                self.public = item["public"]
+
                 exists = True
                 break
         if not exists:

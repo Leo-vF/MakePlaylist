@@ -1,9 +1,8 @@
 import discord
 from os import getenv
-from discord import user
 from dotenv import load_dotenv
 from main import setup
-from Playlist import from_dcbot, get_avg_analysis, get_songs_from_existing
+from Playlist import Playlist, from_dcbot, get_avg_analysis, get_songs_from_existing, Playlist
 
 client = discord.Client()
 load_dotenv()
@@ -40,6 +39,12 @@ def handle_commands_full(message: str) -> str:
         return str(get_avg_analysis(sp, username, playlist))
     elif cmd == "songs":
         return str(get_songs_from_existing(sp, username, playlist))
+    elif cmd == "description":
+        songs = songs[0]
+        username, sp = setup()
+        playlist: Playlist = Playlist(sp, playlist, username)
+        playlist.sp_change_details(description=songs)
+        return "Description is now '{}'".format(songs)
     else:
         return "Error the commmand you specified does not exist."
 
@@ -59,6 +64,11 @@ def handle_commands(message: str, playlist: str) -> str:
         return str(get_avg_analysis(sp, username, playlist))
     elif cmd == "songs":
         return str(get_songs_from_existing(sp, username, playlist))
+    elif cmd == "description":
+        username, sp = setup()
+        playlist: Playlist = Playlist(sp, playlist, username)
+        playlist.sp_change_details(description=songs)
+        return "Description is now '{}'".format(songs)
     else:
         return "Error the command you specified does not exist."
 
