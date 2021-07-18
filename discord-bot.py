@@ -20,6 +20,7 @@ async def on_message(message: discord.message):
         response = handle_commands_full(message.content)
         await message.channel.send(response)
     elif str(message.author.id) in other_users:
+        print("By {}".format(message.author))
         response = handle_commands(message.content, message.author)
         await message.channel.send(response)
 
@@ -51,6 +52,9 @@ def handle_commands_full(message: str) -> str:
 
 def handle_commands(message: str, playlist: str) -> str:
     playlist = str(playlist)
+    print("----------------")
+    print(message)
+    print("----------------")
 
     parts = message.splitlines()
     cmd = parts[0]
